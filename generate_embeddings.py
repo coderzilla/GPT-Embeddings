@@ -34,4 +34,4 @@ df = df[df.n_tokens <= max_tokens].tail(top_n)
 len(df)
 
 df["embedding"] = df.combined.apply(lambda x: get_embedding(x, model=embedding_model))
-df.to_csv("data/fine_food_reviews_with_embeddings_1k.csv")
+df.to_csv("output/embedded_1k_reviews.csv")
