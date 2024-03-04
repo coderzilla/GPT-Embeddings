@@ -46,7 +46,8 @@ class Organization:
                  _id = None,
                  website_context = None,
                  website_content = None,
-                 website_content_tags = None):
+                 website_content_tags = None,
+                 batch=3):
         self.organization_name = organization_name
         self.organization_name_url = organization_name_url
         self.semrush_monthly_visits = semrush_monthly_visits
@@ -89,6 +90,7 @@ class Organization:
         self.website_context = website_context
         self.website_content = website_content
         self.website_content_tags = website_content_tags
+        self.batch = batch
 
     @classmethod
     def from_doc(cls, doc): 

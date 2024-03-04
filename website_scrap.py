@@ -30,7 +30,7 @@ def setup_driver():
     options.add_argument('--disable-dev-shm-usage')  # Overcome limited resource problems
  
     driver = webdriver.Chrome(service=service, options=options)
-    driver.set_page_load_timeout(15)
+    driver.set_page_load_timeout(60)
     return driver
 
 def fetch_html_with_selenium(url):
@@ -121,7 +121,7 @@ def clean_unnecessary_text(text, context):
 
 organizations = []
 
-with open('data/companies-28-02-2024.csv', 'r', encoding='utf-8') as file:
+with open('data/companies-28-02-2024batch3.csv', 'r', encoding='utf-8') as file:
     csv_reader = csv.DictReader(file)
     for row in csv_reader:
         organization = Organization.from_csv_row(row)
@@ -140,6 +140,7 @@ except Exception as e:
 
 db = client['Cluster0']
 collection = db['organizations']
+# [orgs_dic.pop('_id', None) for orgs_dic in orgs_dicts]
 # collection.insert_many(orgs_dicts)
 # for org_dict in orgs_dicts: 
 #     if collection.find_one({'website': org_dict['website']}) == None:
@@ -185,7 +186,7 @@ for index, organization in enumerate(organization_list):
         print(f"Documents modified for {str(document_id)}: {result.modified_count}")
     except Exception as e:
         print(e)
-        collection.delete_one({"_id": document_id})
+        # collection.delete_one({"_id": document_id})
     
 client.close()
 # url = "http://digybite.io/"  # Replace with your target URL
