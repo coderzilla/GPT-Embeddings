@@ -16,7 +16,7 @@ from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
 import json
 
-WEBDRIVER_PATH = 'c:\WebDrivers\chromedriver.exe'
+WEBDRIVER_PATH = '/Users/cihanacar/chromedriver-mac-arm64/chromedriver'
 
 def setup_driver():
     service = Service(WEBDRIVER_PATH)
@@ -30,6 +30,7 @@ def setup_driver():
     options.add_argument('--disable-dev-shm-usage')  # Overcome limited resource problems
  
     driver = webdriver.Chrome(service=service, options=options)
+
     driver.set_page_load_timeout(60)
     return driver
 
@@ -121,7 +122,7 @@ def clean_unnecessary_text(text, context):
 
 organizations = []
 
-with open('data/companies-28-02-2024batch3.csv', 'r', encoding='utf-8') as file:
+with open('data/companies-2-28-2024-batch22.csv', 'r', encoding='utf-8') as file:
     csv_reader = csv.DictReader(file)
     for row in csv_reader:
         organization = Organization.from_csv_row(row)
@@ -140,8 +141,10 @@ except Exception as e:
 
 db = client['Cluster0']
 collection = db['organizations']
-# [orgs_dic.pop('_id', None) for orgs_dic in orgs_dicts]
+# [org_dict.pop('_id', None) for org_dict in orgs_dicts]
 # collection.insert_many(orgs_dicts)
+
+# exit()
 # for org_dict in orgs_dicts: 
 #     if collection.find_one({'website': org_dict['website']}) == None:
 #         org_dict.pop('_id', None)  
@@ -149,6 +152,7 @@ collection = db['organizations']
 # index_name = collection.create_index([('website', 1)])
 query = {
     '$and': [
+        {'batch': 2},
         {'website': {'$exists': True}},
         {'website': {'$ne': None}},
         {'website': {'$ne': ''}},
